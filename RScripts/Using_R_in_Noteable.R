@@ -7,7 +7,7 @@
 
 #Here is an example of using R as a calculator to perform a numerical operation. 
 
-(3 + 7)^2 - 1*10/4
+(3 + 5)^2 - 1*2/4
 
 
 # Using the c() and cbind() base R functions to combine data values and objects respectively. 
