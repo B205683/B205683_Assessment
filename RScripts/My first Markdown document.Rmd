@@ -1,0 +1,50 @@
+---
+title: "My First R markdown document"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r a,message = FALSE, warning = FALSE}
+library(NHSRdatasets)
+library(tidyverse)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+```{r a,message = FALSE, warning = FALSE}
+Height <- c(1.6, 1.8, 2.0, 2.5) # height data in m
+Weight <- c(50, 60, 64, 95)     # weight data in kg
+BMI <-   Weight/(Height^2)      # BMI
+cbind(Height , Weight, BMI) # column bind, like spreadsheet
+```
+
+[Link to my git repository] (https://github.com/B205683/B205683_assessment.git)
+# Data dictionary for test data
+## linker
+## Appending the dictionary
+
+# Loading NHSRdatasets
+## Data
+## Uploading the data
+## Viewing the data
+## Subsetting the data
+
+# Data capture tool
+## Variables
+## Consent
+## Indexing
+
+
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
