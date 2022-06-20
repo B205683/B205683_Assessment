@@ -1,11 +1,13 @@
 ---
-title: "My First R markdown document"
+title: "B205683_Assessment"
+author: "B205683"
+date: "2022/6/21"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## R Markdown
@@ -14,37 +16,92 @@ This is an R Markdown document. Markdown is a simple formatting syntax for autho
 
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
-```{r a,message = FALSE, warning = FALSE}
+
+[Link to my git repository] (https://github.com/B205683/B205683_assessment.git)
+
+# Data dictionary for test data
+```{r pressure, echo=FALSE}
+#loading the packages and data needed for this script.
 library(NHSRdatasets)
-library(tidyverse)
+library(dataMeta)
+library (tidyverse)
+library(here)
+
+#Load the LOS_model data.
+data(LOS_model)
+
+# Have a look at the LOS_model data
+data(LOS_model)
+LOS<-LOS_model
+class(LOS)
+#The tbl_df class is a subclass of data.frame. 
+#printing
+LOS
+#The LOS_model tibble consists of 300 rows of data and 5 columns with different classes. 
+```
+## **Variable descriptions**
+```{r variable_description}
+variable_description <- c("an integer value fictional patient ID number.",
+"A factor,stands for 1of 10 fictional hospital trusts, e.g. “Trust1.","an integer, representing the age of fictional patient in years.","‘Length of Stay,’ an integer representing the number of days a patient was in hospital.","an integer flag of the status of patients (0 = survived, 1= died in hospital).") 
+
+print(variable_description)
+```
+## **Variable types**
+```{r glimpse2}
+glimpse(LOS) 
+```
+We have one quantitative values (measured values) variables and four fixed values (allowable values or codes) variables.
+```{r variable_type} 
+variable_type <- c(0, 1, 0, 1, 0)
+print(variable_type)
+```
+## linker 
+```{r build_linker}
+linker<-build_linker(LOS, variable_description, variable_type)
+print(linker)
+```
+```{r dictionary}
+dictionary <- build_dict(my.data = LOS, linker = linker)
+glimpse(dictionary) 
+```
+
+```{r w,message = FALSE, warning = FALSE}
+glimpse(dictionary)
+write_csv(dictionary, here("RawData", "LOS_model.csv"))
+```
+## **Append data dictionary to the CollectedData**
+
+#### **Create main_string for attributes**
+```{r main_string}
+main_string <- "This data describes an artificially generated hospital data. Fictional patients at 10 fictional hospitals, with LOS, Age and Death status data from the *NHSRdatasets*."
+main_string
+```
+```{r complete_dataset}
+complete_LOSData <- incorporate_attr(my.data = LOS, data.dictionary = dictionary,
+main_string = main_string)
+#Change the author name
+attributes(complete_LOSData)$author[1]<-"B205687"
+complete_LOSData
+attributes(complete_LOSData)
+```
+```{r save_it}
+save_it(complete_LOSData, here("RawData", "complete_LOSData"))
+```
+## Calculate how many NAs there are in each variable
+LOS %>% 
+  map(is.na) %>%
+map(sum)
+#The data is complete.
+
+LOS <- rowid_to_column(LOS, "index")
 ```
 
 ## Including Plots
 
 You can also embed plots, for example:
-```{r a,message = FALSE, warning = FALSE}
-Height <- c(1.6, 1.8, 2.0, 2.5) # height data in m
-Weight <- c(50, 60, 64, 95)     # weight data in kg
-BMI <-   Weight/(Height^2)      # BMI
-cbind(Height , Weight, BMI) # column bind, like spreadsheet
+
+```{r pressure, echo=FALSE}
+plot(pressure)
 ```
-
-[Link to my git repository] (https://github.com/B205683/B205683_assessment.git)
-# Data dictionary for test data
-## linker
-## Appending the dictionary
-
-# Loading NHSRdatasets
-## Data
-## Uploading the data
-## Viewing the data
-## Subsetting the data
-
-# Data capture tool
-## Variables
-## Consent
-## Indexing
-
-
 
 Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
