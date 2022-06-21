@@ -2,19 +2,15 @@
 title: "B205683_Assessment"
 author: "B205683"
 date: "2022/6/21"
-output: html_document
+output:
+  pdf_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 
 knitr::opts_chunk$set(echo = TRUE)
 ```
-
-## R Markdown
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
 
 
 [Link to my git repository] (https://github.com/B205683/B205683_assessment.git)
@@ -35,8 +31,11 @@ data(LOS_model)
 LOS<-LOS_model
 class(LOS)
 #The tbl_df class is a subclass of data.frame. 
+# Look at the summary of teh LOS_model data
+summary(LOS_model)
 #printing
 LOS
+
 #The LOS_model tibble consists of 300 rows of data and 5 columns with different classes. 
 ```
 ## **Variable descriptions**
@@ -67,7 +66,6 @@ glimpse(dictionary)
 
 ```{r w,message = FALSE, warning = FALSE}
 glimpse(dictionary)
-write_csv(dictionary, here("RawData", "LOS_model.csv"))
 ```
 ## **Append data dictionary to the CollectedData**
 
@@ -84,10 +82,11 @@ attributes(complete_LOSData)$author[1]<-"B205687"
 complete_LOSData
 attributes(complete_LOSData)
 ```
-```{r save_it}
-save_it(complete_LOSData, here("RawData", "complete_LOSData"))
-```
+
+
+
 ## Calculate how many NAs there are in each variable
+```{r NAs}
 LOS %>% 
   map(is.na) %>%
 map(sum)
@@ -97,11 +96,11 @@ LOS <- rowid_to_column(LOS, "index")
 ```
 
 ## Including Plots
+# Look at the distribution of Length of Stay (LOS)
+```{r distribution}
 
-You can also embed plots, for example:
+ggplot(LOS_model, aes(x=LOS)) +
+  geom_histogram(alpha=0.5, col=1, fill=13, bins=20)+
+  ggtitle("Distribution of Length of Stay")
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
